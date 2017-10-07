@@ -1,0 +1,8 @@
+open Oxford Offense Reports.doc in word
+
+save as plain text
+open in vim, replace all ^M characters with \r\n with the following command
+:%s/^M/\r\n/g
+(type ^M with control V -> control M)
+
+then save file
