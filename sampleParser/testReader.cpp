@@ -4,6 +4,7 @@
 #include <stack>
 #include <fstream>
 #include <regex>
+#include <algorithm>
 using namespace std;
 
 struct crime {
@@ -18,6 +19,39 @@ struct crime {
         cout << "\tAddress: " << address << endl;
         cout << "\tCrime: " << crimeType << endl;
         cout << "}" << endl;
+    }
+    void printTSV() {
+        vector<string> strings = {number, address, crimeType};
+        for (string s : strings) {
+            string::size_type i = 0;
+            while (i<s.length()) {
+                i = s.find('\n', i);
+                if (i==string::npos) break;
+                s.erase(i);
+            }
+            i = 0;
+            while (i<s.length()) {
+                i = s.find('\r', i);
+                if (i==string::npos) break;
+                s.erase(i);
+            }
+            cout << s << "\t";
+        }
+        string dateTime = "";
+        for (int j = 0; j<date.length(); j++){
+            if(isalnum(date[j])){
+                dateTime += date[j];
+            } else if (date[j] == ':') {
+                dateTime += date[j];
+            } else if (date[j] == '/') {
+                dateTime += date[j];
+            } else if (date[j] == -54) {
+                while (date[j+1] == -54) j++;
+                dateTime += '\t';
+            }
+        }
+        cout << dateTime;
+        cout << endl;
     }
 };
 
@@ -74,9 +108,11 @@ int main() {
         lineNumber++;
     }
    
+    cout << "Number\tAddress\tCrimeType\tDate\tTime" << endl;
+
     // print everything in the crimes vector.
     std::for_each(crimes.begin(), crimes.end(), 
-        [] (crime &c) { c.print(); });
+        [] (crime &c) { c.printTSV(); });
     
     return 0;
 }
