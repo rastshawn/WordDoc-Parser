@@ -99,8 +99,8 @@ int main() {
             c.number = stringVec[lineNumber];
             c.address = stringVec[lineNumber + 1];
             c.crimeType = stringVec[lineNumber + 2];
-            if (stringVec[lineNumber + 3] == "MEDIA") {
-                crimeType = "unspecified";
+            if (stringVec[lineNumber + 3].find("MEDIA", 0) != string::npos) {
+                c.crimeType = "unspecified";
             }
 
             crimes.push_back(c);
